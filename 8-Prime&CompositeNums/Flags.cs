@@ -10,6 +10,7 @@ namespace Practice
 		{
 			var N = A.Length;
 			var minDistance = N;
+			var maxDistance = 0;
 			var maxFlags = 0;
 			var peakPositions = new HashSet<int>();
 
@@ -26,7 +27,8 @@ namespace Practice
 				return peakPositions.Count;
 			}
 
-			for (int i = peakPositions.Count; i >= minDistance; i--) {
+			maxDistance = (int)Math.Min(peakPositions.Count, Math.Sqrt(N) + 1);
+			for (int i = maxDistance; i >= minDistance; i--) {
 				var distance = i;
 				var flagsSet = 0;
 
