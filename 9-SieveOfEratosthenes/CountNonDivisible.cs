@@ -1,31 +1,29 @@
 ﻿namespace Practice
 {
-    using System.Collections.Generic;
-
     internal class CountNonDivisible
     {
         public int[] Solution(int[] A)
         {
             var N = A.Length;
-            var numbers = new int[(2 * N) + 1];
+            var countNumbers = new int[(2 * N) + 1];
             var countDivisibles = new int[(2 * N) + 1];
             var countIndivisibles = new int[N];
 
             foreach (var x in A)
             {
-                numbers[x]++;
+                countNumbers[x]++;
             }
 
-            for (int num = 1; num < numbers.Length; num++)
+            for (int num = 1; num < countNumbers.Length; num++)
             {
-                if (numbers[num] != 0)
+                if (countNumbers[num] != 0)
                 {
                     var pointer = num;
                     while (pointer <= 2 * N)
                     {
-                        if (numbers[pointer] != 0)
+                        if (countNumbers[pointer] != 0)
                         {
-                            countDivisibles[pointer] += numbers[num];
+                            countDivisibles[pointer] += countNumbers[num];
                         }
 
                         pointer += num;
