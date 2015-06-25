@@ -62,7 +62,7 @@ namespace Practice
 				nextPeak[i] = -1;
 			}
 
-			for (int i = N - 2; i > 0 - 1; i--) {
+			for (int i = N - 2; i > 0; i--) {
 				if (A[i] > A[i + 1] && A[i] > A[i - 1]) {
 					nextPeak[i] = i;
 					peakCount++;
