@@ -20,16 +20,17 @@ namespace Practice
 
 			for (int i = countPeaks; i > 0; i--) {
 				if (N % i == 0) {
-					var k = N / i;
-					var boundary = k;
+					var blockSize = N / i;
+					var boundary = blockSize;
 
 					using (var peaks = peakPositions.GetEnumerator()) {
 						
 						while (peaks.Current < boundary &&
-						       peaks.MoveNext() && boundary < N) {
+						       peaks.MoveNext() &&
+						       boundary < N) {
 
 							if (peaks.Current >= boundary) {
-								boundary += k;
+								boundary += blockSize;
 							}
 						}
 
