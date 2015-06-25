@@ -24,10 +24,9 @@ namespace Practice
 					var boundary = k;
 
 					using (var peaks = peakPositions.GetEnumerator()) {
-						while (peaks.Current < boundary && boundary < N) {
-							if (!peaks.MoveNext()) {
-								return 0;
-							}
+						
+						while (peaks.Current < boundary &&
+						       peaks.MoveNext() && boundary < N) {
 
 							if (peaks.Current >= boundary) {
 								boundary += k;
