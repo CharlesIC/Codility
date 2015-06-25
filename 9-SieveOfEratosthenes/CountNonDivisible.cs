@@ -7,26 +7,29 @@
         public int[] Solution(int[] A)
         {
             var N = A.Length;
-            var numbers = new HashSet<int>();
+            var numbers = new int[(2 * N) + 1];
             var countDivisibles = new int[(2 * N) + 1];
             var countIndivisibles = new int[N];
 
             foreach (var x in A)
             {
-                numbers.Add(x);
+                numbers[x]++;
             }
 
-            for (int i = 0; i < N; i++)
+            for (int num = 1; num < numbers.Length; num++)
             {
-                var num = A[i];
-                while (num <= 2 * N)
+                if (numbers[num] != 0)
                 {
-                    if (numbers.Contains(num))
+                    var pointer = num;
+                    while (pointer <= 2 * N)
                     {
-                        countDivisibles[num]++;
-                    }
+                        if (numbers[pointer] != 0)
+                        {
+                            countDivisibles[pointer] += numbers[num];
+                        }
 
-                    num += A[i];
+                        pointer += num;
+                    }
                 }
             }
 
