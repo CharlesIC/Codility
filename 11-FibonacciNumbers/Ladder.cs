@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Practice
 {
@@ -6,35 +7,29 @@ namespace Practice
     {
         public int[] Solution(int[] A, int[] B)
         {
-            var count = new int[A.Length];
-            var maxRungs = 0;
-
-            foreach (var num in A)
-            {
-                maxRungs = Math.Max(maxRungs, num);
-            }
-
-            var fibonacci = GetFibonacciSequence(maxRungs);
+            var combinations = new int[A.Length];
+            var fibonacci = GetFibonacciSequence(A.Max(), B.Max());
 
             for (int i = 0; i < A.Length; i++)
             {
                 var a = (int)fibonacci[A[i] + 1];
                 var b = (1 << B[i]) - 1;
 
-                count[i] = a & b;
+                combinations[i] = a & b;
             }
 
-            return count;
+            return combinations;
         }
 
-        private double[] GetFibonacciSequence(int n)
+        private double[] GetFibonacciSequence(int n, int modPower)
         {
+            var mod = (1 << modPower) - 1;
             var fibonacci = new double[n + 2];
             fibonacci[1] = 1;
 
             for (int i = 2; i < fibonacci.Length; i++)
             {
-                fibonacci[i] = fibonacci[i - 2] + fibonacci[i - 1];
+                fibonacci[i] = (int)(fibonacci[i - 2] + fibonacci[i - 1]) & mod;
             }
 
             return fibonacci;
