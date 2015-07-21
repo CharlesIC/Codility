@@ -18,16 +18,11 @@ namespace Practice
 
             for (int i = 0; i < A.Length; i++)
             {
-                var a = fibonacci[A[i] + 1];
-                var b = Math.Pow(2, B[i]);
+                var a = (int)fibonacci[A[i] + 1];
+                var b = (1 << B[i]) - 1;
 
-                count[i] = (int)(a - Math.Floor(a / b) * b);
+                count[i] = a & b;
             }
-
-            // 8 4 2 1
-            // 8 = 1000
-            // 2 = 0010
-            // 8 % 2 = 0;
 
             return count;
         }
