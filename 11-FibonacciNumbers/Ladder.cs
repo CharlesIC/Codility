@@ -1,14 +1,13 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
-namespace Practice
+namespace Codility
 {
     public class Ladder
     {
         public int[] Solution(int[] A, int[] B)
         {
             var combinations = new int[A.Length];
-            var fibonacci = GetFibonacciSequence(A.Max(), B.Max());
+            var fibonacci = this.GetFibonacciSequence(A.Max(), B.Max());
 
             for (var i = 0; i < A.Length; i++)
             {

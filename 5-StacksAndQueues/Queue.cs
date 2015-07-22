@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Practice
+namespace Codility
 {
     public class Queue
     {
@@ -17,7 +17,7 @@ namespace Practice
 
         public void Push(int x)
         {
-            tail = (++tail % capacity);
+            tail = ++tail % capacity;
 
             if (tail == head)
             {
@@ -29,7 +29,7 @@ namespace Practice
 
         public int Pop()
         {
-            head = (++head % capacity);
+            head = ++head % capacity;
 
             if (tail == head)
             {

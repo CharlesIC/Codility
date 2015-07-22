@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
 	public class Flags
 	{

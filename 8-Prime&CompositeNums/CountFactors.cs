@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Practice
+﻿namespace Codility
 {
 	public class CountFactors
 	{

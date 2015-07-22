@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Practice
+﻿namespace Codility
 {
     public class StoneWall
     {
@@ -33,4 +31,3 @@ namespace Practice
         }
     }
 }
-    

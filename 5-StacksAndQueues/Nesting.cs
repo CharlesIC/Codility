@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Practice
+﻿namespace Codility
 {
     public class Nesting
     {
@@ -11,18 +9,22 @@ namespace Practice
             foreach (var character in S) {
                 if (character == '(') {
                     count++;
-                } else if (count == 0) {
+                }
+                else if (count == 0)
+                {
                     return 0;
-                } else {
+                }
+                else
+                {
                     count--;
                 }
             }
 
             if (count == 0) {
                 return 1;
-            } else {
-                return 0;
             }
+
+            return 0;
         }
     }
 }

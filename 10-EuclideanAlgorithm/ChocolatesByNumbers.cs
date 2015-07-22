@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Practice
+namespace Codility
 {
 	public class ChocolatesByNumbers
 	{
@@ -24,7 +24,7 @@ namespace Practice
 			// Calculate the GCD
 			var a = N;
 			var b = M;
-			var gcd = b;
+			int gcd;
 
 			while (a % b != 0) {
 				gcd = b;

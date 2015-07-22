@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
     public class FibFrog
     {
-        public int[] solution(int[] A)
+        public int[] Solution(int[] A)
         {
             var positionBegin = -1;
             var positionEnd = A.Length;

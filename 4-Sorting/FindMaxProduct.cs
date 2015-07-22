@@ -1,6 +1,6 @@
 using System;
 
-namespace Practice
+namespace Codility
 {
     public class FindMaxProduct
     {

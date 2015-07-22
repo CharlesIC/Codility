@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
 	public class Dominator
 	{
@@ -11,9 +11,11 @@ namespace Practice
 
 			foreach (var number in A) {
 				if (stack.Count == 0 || stack.Peek() == number) {
-					stack.Push(number);
-				} else {
-					stack.Pop();
+				    stack.Push(number);
+				}
+				else
+				{
+				    stack.Pop();
 				}
 			}
 
@@ -41,11 +43,15 @@ namespace Practice
 				if (candidateCount == 0) {
 					candidate = A[i];
 					candidateCount++;
-					candiateIndex = i;
-				} else if (A[i] == A[candiateIndex]) {
-					candidateCount++;
-				} else {
-					candidateCount--;
+				    candiateIndex = i;
+				}
+				else if (A[i] == A[candiateIndex])
+				{
+				    candidateCount++;
+				}
+				else
+				{
+				    candidateCount--;
 				}
 			}
 

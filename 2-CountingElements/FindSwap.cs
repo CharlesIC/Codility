@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
     public class FindSwap
     {
         public bool Solution(int m, int[] A, int[] B)
         {
-            var sumA = Sum(A);
-            var sumB = Sum(B);
+            var sumA = this.Sum(A);
+            var sumB = this.Sum(B);
 
             var d = sumB - sumA;
 
@@ -19,7 +17,7 @@ namespace Practice
             }
 
             d /= 2;
-            var counterA = CountElements(A);
+            var counterA = this.CountElements(A);
 
             foreach (var number in B)
             {

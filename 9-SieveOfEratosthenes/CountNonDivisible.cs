@@ -1,4 +1,4 @@
-﻿namespace Practice
+﻿namespace Codility
 {
     internal class CountNonDivisible
     {

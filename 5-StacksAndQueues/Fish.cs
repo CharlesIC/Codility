@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
 	public class Fish
 	{

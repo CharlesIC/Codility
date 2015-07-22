@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Practice
+﻿namespace Codility
 {
 	public class CommonPrimeDivisors
 	{
 		public int Solution(int[] A, int[] B)
 		{
 			var countPairs = 0;
-			var gcdProvider = new GCD();
+			var gcdProvider = new Gcd();
 
-			for (int i = 0; i < A.Length; i++) {
-				
-				var gcd = gcdProvider.GcdBinary(A[i], B[i], 1);
+		    for (int i = 0; i < A.Length; i++)
+		    {
+		        var gcd = gcdProvider.GcdBinary(A[i], B[i], 1);
 
 				var residueA = A[i] / gcd;
 				var residueB = B[i] / gcd;
@@ -77,24 +74,25 @@ namespace Practice
 
 		private int Gcd(int a, int b, int res)
 		{
-			if (a == b) {
+		    if (a == b) {
 				return a * res;
-
-			} else if (a % 2 == 0 && b % 2 == 0) {
-				return Gcd(a / 2, b / 2, 2 * res);
-
-			} else if (a % 2 == 0) {
-				return Gcd(a / 2, b, res);
-
-			} else if (b % 2 == 0) {
-				return Gcd(a, b / 2, res);
-
-			} else if (a > b) {
-				return Gcd(a - b, b, res);
-
-			} else {
-				return Gcd(a, b - a, res);
 			}
+
+		    if (a % 2 == 0 && b % 2 == 0) {
+		        return this.Gcd(a / 2, b / 2, 2 * res);
+		    }
+
+		    if (a % 2 == 0) {
+		        return this.Gcd(a / 2, b, res);
+		    }
+
+		    if (b % 2 == 0) {
+		        return this.Gcd(a, b / 2, res);
+		    }
+
+		    return a > b ?
+                this.Gcd(a - b, b, res) :
+                this.Gcd(a, b - a, res);
 		}
 	}
 }

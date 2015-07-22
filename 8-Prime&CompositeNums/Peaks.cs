@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Practice
+namespace Codility
 {
 	public class Peaks
 	{
@@ -23,13 +22,11 @@ namespace Practice
 					var blockSize = N / i;
 					var boundary = blockSize;
 
-					using (var peaks = peakPositions.GetEnumerator()) {
-						
-						while (peaks.Current < boundary &&
-						       peaks.MoveNext() &&
-						       boundary < N) {
-
-							if (peaks.Current >= boundary) {
+				    using (var peaks = peakPositions.GetEnumerator())
+				    {
+				        while (peaks.Current < boundary && peaks.MoveNext() && boundary < N)
+				        {
+				            if (peaks.Current >= boundary) {
 								boundary += blockSize;
 							}
 						}

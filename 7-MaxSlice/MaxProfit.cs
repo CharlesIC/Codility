@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Practice
+namespace Codility
 {
 	public class MaxProfit
 	{
@@ -17,9 +17,11 @@ namespace Practice
 			foreach (var price in A) {
 				if (price > maxPrice) {
 					maxPrice = price;
-					maxProfit = Math.Max(maxProfit, maxPrice - minPrice);
-				} else if (price < minPrice) {
-					minPrice = maxPrice = price;
+				    maxProfit = Math.Max(maxProfit, maxPrice - minPrice);
+				}
+				else if (price < minPrice)
+				{
+				    minPrice = maxPrice = price;
 				}
 			}
 
