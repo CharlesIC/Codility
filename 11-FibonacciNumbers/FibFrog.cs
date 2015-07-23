@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
@@ -8,9 +7,7 @@ namespace Codility
 {
     public class FibFrog
     {
-<<<<<<< Updated upstream
         public int[] Solution(int[] A)
->>>>>>> Stashed changes
         {
             const int Origin = -1;
             var destination = A.Length + 1;
