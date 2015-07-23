@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Collections.Generic;
 
 namespace Codility
 {
@@ -9,7 +8,7 @@ namespace Codility
         public int Solution(int[] A)
         {
             const int Origin = -1;
-            var destination = A.Length + 1;
+            var destination = A.Length;
             var fibonacci = GetFibonacciSequence(destination + 1);
 
             // Perform a breadth-first search on the array
@@ -28,12 +27,12 @@ namespace Codility
 
                     if (nextPosition == destination)
                     {
-                        return leaf.Hops++;
+                        return leaf.Hops + 1;
                     }
 
                     if (A[nextPosition] == 1)
                     {
-                        queue.Enqueue(new Leaf { Position = nextPosition, Hops = leaf.Hops++ });
+                        queue.Enqueue(new Leaf { Position = nextPosition, Hops = leaf.Hops + 1 });
                     }
                 }
             }
@@ -47,13 +46,13 @@ namespace Codility
             fibonacci.AddRange(new[] { 0, 1 });
 
             var idx = 1;
-            while (fibonacci[idx] < max)
+            while (fibonacci[idx] <= max)
             {
                 idx++;
                 fibonacci.Add(fibonacci[idx - 1] + fibonacci[idx - 2]);
             }
 
-            return fibonacci.GetRange(0, idx).ToArray();
+            return fibonacci.GetRange(2, idx - 2).ToArray();
         }
 
         private struct Leaf
