@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
->>>>>>> Stashed changes
 
 namespace Codility
 {
     public class FibFrog
     {
-        public int[] Solution(int[] A)
+        public int Solution(int[] A)
         {
             const int Origin = -1;
             var destination = A.Length + 1;
