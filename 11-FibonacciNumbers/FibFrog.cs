@@ -12,6 +12,7 @@ namespace Codility
             var fibonacci = GetFibonacciSequence(destination + 1);
 
             // Perform a breadth-first search on the array
+            var visited = new HashSet<int>();
             var queue = new Queue<Leaf>();
             queue.Enqueue(new Leaf { Position = Origin, Hops = 0 });
 
@@ -20,6 +21,15 @@ namespace Codility
                 var leaf = queue.Dequeue();
                 var currentPosition = leaf.Position;
                 var maxDistance = destination - currentPosition;
+
+                if (!visited.Contains(currentPosition))
+                {
+                    visited.Add(currentPosition);
+                }
+                else
+                {
+                    continue;
+                }
 
                 foreach (var distance in fibonacci.Where(x => x <= maxDistance))
                 {
