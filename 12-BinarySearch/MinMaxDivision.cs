@@ -9,25 +9,20 @@ namespace Codility
             var prefixSums = PrefixSums(A);
 
             var beg = 1;
-            var end = M;
-            var result = SumBetweenIndices(prefixSums, 0, A.Length - 1);
+            var end = A.Length;
+            var result = prefixSums[A.Length];
 
             if (K == 1)
             {
-                if (M >= A.Length)
-                {
-                    return result;
-                }
-
-                return -1;
+                return result;
             }
 
             while (beg <= end)
             {
                 var mid = (beg + end) / 2;
-                var sum = GetMinSum(prefixSums, K, mid, A.Length);
+                int sum;
 
-                if (sum < result)
+                if (GetMinSum(prefixSums, K, mid, A.Length, out sum))
                 {
                     result = Math.Min(result, sum);
                     end = mid - 1;
@@ -41,23 +36,34 @@ namespace Codility
             return result;
         }
 
-        private int GetMinSum(int[] prefixSums, int numBlocks, int maxBlockSize, int arrLength)
+        private bool GetMinSum(int[] prefixSums, int numBlocks, int maxBlockSize, int arrLength, out int minSum)
         {
-            var totalSum = SumBetweenIndices(prefixSums, 0, arrLength - 1);
-            var minSum = totalSum;
+            var countRemainingElements = arrLength - maxBlockSize;
+            var totalSum = prefixSums[arrLength];
+            var anyValid = false;
+
+            if (countRemainingElements == 0)
+            {
+                minSum = totalSum;
+                return true;
+            }
+
+            minSum = totalSum;
             
             for (int i = 0; i <= arrLength - maxBlockSize; i++)
             {
                 var blockSum = SumBetweenIndices(prefixSums, i, i + maxBlockSize - 1);
                 var remainingSum = totalSum - blockSum;
+                var countRemainingBlocks = Math.Min((numBlocks - 1), countRemainingElements);
 
-                if ((remainingSum / (numBlocks - 1)) < blockSum)
+                if ((remainingSum / countRemainingBlocks) < blockSum)
                 {
                     minSum = Math.Min(minSum, blockSum);
+                    anyValid = true;
                 }
             }
 
-            return minSum;
+            return anyValid;
         }
 
         private int[] PrefixSums(int[] arr)
