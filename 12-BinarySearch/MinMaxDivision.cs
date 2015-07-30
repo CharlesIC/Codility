@@ -56,7 +56,7 @@ namespace Codility
                 var remainingSum = totalSum - blockSum;
                 var countRemainingBlocks = Math.Min((numBlocks - 1), countRemainingElements);
 
-                if ((remainingSum / countRemainingBlocks) < blockSum)
+                if ((remainingSum / countRemainingBlocks) <= blockSum)
                 {
                     minSum = Math.Min(minSum, blockSum);
                     anyValid = true;
