@@ -40,6 +40,11 @@ namespace Codility
             {
                 var nailPosition = nails[i];
 
+                if (!planksAtPositions.ContainsKey(nailPosition))
+                {
+                    continue;
+                }
+
                 foreach (var plank in planksAtPositions[nailPosition])
                 {
                     if (!planksNailed.Contains(plank))
@@ -79,6 +84,12 @@ namespace Codility
             }
 
             return plankIndex;
+        }
+
+
+        public int Solution2(int[] A, int[] B, int[] C)
+        {
+            return 0;
         }
     }
 }
