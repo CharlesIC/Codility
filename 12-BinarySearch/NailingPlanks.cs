@@ -85,11 +85,5 @@ namespace Codility
 
             return plankIndex;
         }
-
-
-        public int Solution2(int[] A, int[] B, int[] C)
-        {
-            return 0;
-        }
     }
 }
