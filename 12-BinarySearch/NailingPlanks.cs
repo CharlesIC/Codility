@@ -8,82 +8,125 @@ namespace Codility
     {
         public int Solution(int[] A, int[] B, int[] C)
         {
-            var planksAtPositions = IndexPlanks(A, B);
-
-            var lowerBound = 1;
-            var upperBound = C.Length;
+            var sortedNails = SortNails(C);
             var result = -1;
 
-            while (lowerBound <= upperBound)
+            for (int i = 0; i < A.Length; i++)
             {
-                var midNailsUsed = (lowerBound + upperBound) / 2;
-                if (CheckNails(C, A.Length, midNailsUsed, planksAtPositions))
+                // Find a nail for the current plank
+                result = FindFirstNail(A[i], B[i], sortedNails, result);
+
+                if (result == -1)
                 {
-                    upperBound = midNailsUsed - 1;
-                    result = midNailsUsed;
-                }
-                else
-                {
-                    lowerBound = midNailsUsed + 1;
+                    return -1;
                 }
             }
 
-            return result;
+            return result + 1;
         }
 
-        private bool CheckNails(int[] nails, int countPlanks, int nailsUsed,
-                                Dictionary<int, List<int>> planksAtPositions)
+        private int FindFirstNail(int plankBegin, int plankEnd, SortedSet<Tuple<int, int>> sortedNails, int preResult)
         {
-            var planksNailed = new HashSet<int>();
+            var firstNailOrder = GetFirstNailOrder(plankBegin, plankEnd, sortedNails);
 
-            for (var i = 0; i < nailsUsed; i++)
+            // Can't find a nail that could nail the plank
+            if (firstNailOrder == -1)
             {
-                var nailPosition = nails[i];
+                return -1;
+            }
 
-                if (!planksAtPositions.ContainsKey(nailPosition))
+            var bestNailIdx = FindBestNailForPlank(plankEnd, firstNailOrder, sortedNails, preResult);
+
+            return bestNailIdx;
+        }
+
+        private int GetFirstNailOrder(int plankBegin, int plankEnd, SortedSet<Tuple<int, int>> sortedNails)
+        {
+            var firstNailOrder = -1;
+
+            var nailOrderLower = 0;
+            var nailOrderUpper = sortedNails.Count - 1;
+            var nailOrderMid = 0;
+
+            // Search by position :: Find the first nail
+            // which is between plankBegin and plankEnd
+            // (i.e. has the lowest acceptable position)
+            while (nailOrderLower <= nailOrderUpper)
+            {
+                nailOrderMid = (nailOrderLower + nailOrderUpper) / 2;
+                var positionMid = GetNailPosition(sortedNails, nailOrderMid);
+
+                if (positionMid < plankBegin)
                 {
-                    continue;
+                    nailOrderLower = nailOrderMid + 1;
                 }
-
-                foreach (var plank in planksAtPositions[nailPosition])
+                else
                 {
-                    if (!planksNailed.Contains(plank))
+                    nailOrderUpper = nailOrderMid - 1;
+
+                    if (positionMid <= plankEnd)
                     {
-                        planksNailed.Add(plank);
+                        firstNailOrder = nailOrderMid;
                     }
                 }
             }
 
-            return planksNailed.Count == countPlanks;
+            return firstNailOrder;
         }
 
-        Dictionary<int, List<int>> IndexPlanks(int[] A, int[] B)
+        private int FindBestNailForPlank(int plankEnd, int firstNailOrder, SortedSet<Tuple<int, int>> sortedNails, int preResult)
         {
-            var plankIndex = new Dictionary<int, List<int>>();
-            var currentPlanks = new List<int>();
+            var bestNailIdx = GetNailIndex(sortedNails, firstNailOrder);
 
-            var leftEdgeIdx = 0;
-            var rightEdgeIdx = 0;
-
-            for (int position = A.Min(); position <= B.Max(); position++)
+            // Search by index :: Linearly search all qualifying
+            // nails and find the one that is used the earliest
+            // (i.e. has the lowest index)
+            var nailOrder = firstNailOrder + 1;
+            while (nailOrder < sortedNails.Count)
             {
-                while (leftEdgeIdx < A.Length && A[leftEdgeIdx] <= position)
+                if (GetNailPosition(sortedNails, nailOrder) > plankEnd)
                 {
-                    currentPlanks.Add(leftEdgeIdx);
-                    leftEdgeIdx++;
+                    break;
                 }
 
-                while (rightEdgeIdx < B.Length && B[rightEdgeIdx] < position)
-                {
-                    currentPlanks.Remove(rightEdgeIdx);
-                    rightEdgeIdx++;
-                }
+                bestNailIdx = Math.Min(
+                    bestNailIdx,
+                    GetNailIndex(sortedNails, nailOrder));
 
-                var planksAtCurrentPositon = new List<int>(currentPlanks);
-                plankIndex.Add(position, planksAtCurrentPositon);
+                nailOrder++;
+
+                // The current result won't influence the overall result
+                // because some other plank needs a nail used later than
+                // the best nail for the current one
+                if (preResult >= bestNailIdx)
+                {
+                    return preResult;
+                }
             }
 
-            return plankIndex;
+            return Math.Max(bestNailIdx, preResult);
+        }
+
+        private SortedSet<Tuple<int, int>> SortNails(int[] nails)
+        {
+            var sortedNails = new SortedSet<Tuple<int,int>>();
+
+            for (int i = 0; i < nails.Length; i++)
+            {
+                sortedNails.Add(new Tuple<int, int>(nails[i], i));
+            }
+
+            return sortedNails;
+        }
+
+        private int GetNailPosition(SortedSet<Tuple<int,int>> sortedNails, int nailOrder)
+        {
+            return sortedNails.ElementAt(nailOrder).Item1;
+        }
+
+        private int GetNailIndex(SortedSet<Tuple<int,int>> sortedNails, int nailOrder)
+        {
+            return sortedNails.ElementAt(nailOrder).Item2;
         }
     }
 }
