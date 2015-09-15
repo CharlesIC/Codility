@@ -53,7 +53,7 @@ namespace Practice
             while (nailOrderLower <= nailOrderUpper)
             {
                 nailOrderMid = (nailOrderLower + nailOrderUpper) / 2;
-                var positionMid = nailsInOrder[nailOrderMid].position;
+                var positionMid = nailsInOrder[nailOrderMid].Position;
 
                 if (positionMid < plankBegin)
                 {
@@ -75,7 +75,7 @@ namespace Practice
 
         private int FindBestNailForPlank(int plankEnd, int firstNailOrder, IList<Nail> nailsInOrder, int preResult)
         {
-            var bestNailIdx = nailsInOrder[firstNailOrder].index;
+            var bestNailIdx = nailsInOrder[firstNailOrder].Index;
 
             // Search by index :: Linearly search all qualifying
             // nails and find the one that is used the earliest
@@ -83,12 +83,12 @@ namespace Practice
             var nailOrder = firstNailOrder + 1;
             while (nailOrder < nailsInOrder.Count)
             {
-                if (nailsInOrder[nailOrder].position > plankEnd)
+                if (nailsInOrder[nailOrder].Position > plankEnd)
                 {
                     break;
                 }
 
-                bestNailIdx = Math.Min(bestNailIdx, nailsInOrder[nailOrder].index);
+                bestNailIdx = Math.Min(bestNailIdx, nailsInOrder[nailOrder].Index);
 
                 nailOrder++;
 
@@ -123,15 +123,15 @@ namespace Practice
                     }));
 
             Array.Sort(nailIndex, nailCompare);
-            var sortedNails = nailIndex.Select(idx => new Nail { index = idx, position = nails[idx] }).ToList();
+            var sortedNails = nailIndex.Select(idx => new Nail { Index = idx, Position = nails[idx] }).ToList();
 
             return sortedNails;
         }
 
         private struct Nail
         {
-            public int index;
-            public int position;
+            public int Index;
+            public int Position;
         }
     }
 }
