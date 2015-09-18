@@ -7,155 +7,88 @@ namespace Codility
     {
         public int solution(int M, int[] A)
         {
-            const int limit = (int)1e9;
+            const int limit = 1000000000;
+            var elements = new Dictionary<int, int>();
             var result = 0;
 
             var back = 0;
-            while (back < A.Length)
+            for (int front = 0; front < A.Length; front++)
             {
-                var elements = new HashSet<int>();
-
-                var front = back;
-                while (front < A.Length && !elements.Contains(A[front]) && result < limit)
+                if (!elements.ContainsKey(A[front]))
                 {
-                    elements.Add(A[front]);
-                    front++;
+                    elements.Add(A[front], front);
                 }
-
-                var n = front - back;
-                result += (n + 1) * n / 2;
-
-                back = front;
-
-                if (front < A.Length && A[front] != A[front - 1])
+                else
                 {
-                    result--;
-                    back--;
-                }
+                    var nextBack = elements[A[front]] + 1;
 
-                if (result >= limit)
-                {
-                    return limit;
+                    // S_n = n * (n + 1) / 2
+                    // result += (front - back) * (front - back + 1) / 2
+                    // result -= (front - nextBack) * (front - nextBack + 1) / 2
+                    result += (nextBack - back) * (front - back + front - nextBack + 1) / 2;
+
+                    if (result >= limit)
+                    {
+                        return limit;
+                    }
+                        
+                    for (int i = back; i < nextBack; i++)
+                    {
+                        elements.Remove(A[i]);
+                    }
+
+                    elements.Add(A[front], front);
+                    back = nextBack;
                 }
             }
+
+            // Process the last slices
+            result += (A.Length - back) * (A.Length - back + 1) / 2;
 
             return Math.Min(result, limit);
         }
 
         public int solution2(int M, int[] A)
         {
-            const int limit = (int)1e9;
-            var result = 0;
+            const int limit = 1000000000;
+            int back, front, result;
 
-            var back = 0;
-            while (back < A.Length)
+            var elements = new int[M + 1];
+            for (int i = 0; i < elements.Length; i++)
             {
-                var elements = new HashSet<int>();
-
-                var front = back;
-                while (front < A.Length && !elements.Contains(A[front]) && result < limit)
-                {
-                    elements.Add(A[front]);
-                    result += elements.Count;
-                    front++;
-                }
-
-                if (result >= limit)
-                {
-                    return limit;
-                }
-
-                back = Math.Max(front - 1, back + 1);
-            }
-                
-            return Math.Min(result, limit);
-        }
-
-        public int solution3(int M, int[] A)
-        {
-            const int limit = (int)1e9;
-            var result = 0;
-            int back, front;
-
-            back = front = 0;
-            while (back < A.Length && front < A.Length)
-            {
-                var elements = new HashSet<int>();
-
-                front = back;
-                while (front < A.Length && !elements.Contains(A[front]) && result < limit)
-                {
-                    elements.Add(A[front]);
-                    result += elements.Count;
-                    front++;
-                }
-
-                if (front < A.Length)
-                {
-                    if (A[front] == A[front - 1])
-                    {
-                        back = front;
-                    }
-                    else
-                    {
-                        back = front - 1;
-                        result--;
-                    }
-                }
-
-                if (result >= limit)
-                {
-                    return limit;
-                }
+                elements[i] = -1;
             }
 
-            return Math.Min(result, limit);
-        }
-
-        public int solution4(int M, int[] A)
-        {
-            const int limit = (int)1e9;
-            int back, front;
-            var result = 0;
-
-            var elements = new HashSet<int>();
-
-            front = 0;
-            while (front < A.Length)
+            back = result = 0;
+            for (front = 0; front < A.Length; front++)
             {
-                if (!elements.Contains(A[front]))
+                if (elements[A[front]] == -1)
                 {
-                    elements.Add(A[front]);
-                    result += elements.Count;
-                    front++;
+                    elements[A[front]] = front;
                 }
                 else
                 {
-                    elements.Clear();
-
-                    if (A[front] == A[front - 1])
-                    {
-                        back = front;
-                    }
-                    else
-                    {
-                        back = --front;
-                        result--;
-                    }
+                    var newBack = elements[A[front]] + 1;
+                    result += (newBack - back) * (front - back + front - newBack + 1) / 2;
 
                     if (result >= limit)
                     {
                         return limit;
                     }
+
+                    for (int idx = back; idx < newBack; idx++)
+                    {
+                        elements[A[idx]] = -1;
+                    }
+                    elements[A[front]] = front;
+
+                    back = newBack;
                 }
             }
 
-            return Math.Min(result, limit);
-        }
+            result += (front - back) * (front - back + 1) / 2;
 
-        public int solution5(int M, int[] A)
-        {
-            return -1;
+            return Math.Min(result, limit);
         }
     }
 }
