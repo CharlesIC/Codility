@@ -8,42 +8,34 @@ namespace Codility
         public int solution(int M, int[] A)
         {
             const int limit = 1000000000;
-            var elements = new Dictionary<int, int>();
-            var result = 0;
+            var elements = new HashSet<int>();
+            int back, front, result;
 
-            var back = 0;
-            for (int front = 0; front < A.Length; front++)
+            back = front = result = 0;
+            while (front < A.Length && back < A.Length)
             {
-                if (!elements.ContainsKey(A[front]))
+                while (front < A.Length && !elements.Contains(A[front]))
                 {
-                    elements.Add(A[front], front);
-                }
-                else
-                {
-                    var nextBack = elements[A[front]] + 1;
-
-                    // S_n = n * (n + 1) / 2
-                    // result += (front - back) * (front - back + 1) / 2
-                    // result -= (front - nextBack) * (front - nextBack + 1) / 2
-                    result += (nextBack - back) * (front - back + front - nextBack + 1) / 2;
+                    elements.Add(A[front]);
+                    result += (elements.Count);
 
                     if (result >= limit)
                     {
                         return limit;
                     }
-                        
-                    for (int i = back; i < nextBack; i++)
-                    {
-                        elements.Remove(A[i]);
-                    }
 
-                    elements.Add(A[front], front);
-                    back = nextBack;
+                    front++;
                 }
-            }
 
-            // Process the last slices
-            result += (A.Length - back) * (A.Length - back + 1) / 2;
+                while (front < A.Length && back < A.Length && A[back] != A[front])
+                {
+                    elements.Remove(A[back]);
+                    back++;
+                }
+
+                elements.Remove(A[back]);
+                back++;
+            }
 
             return Math.Min(result, limit);
         }
@@ -51,42 +43,34 @@ namespace Codility
         public int solution2(int M, int[] A)
         {
             const int limit = 1000000000;
+            var elements = new HashSet<int>();
             int back, front, result;
+            back = front = result = 0;
 
-            var elements = new int[M + 1];
-            for (int i = 0; i < elements.Length; i++)
+            while (front < A.Length && back < A.Length)
             {
-                elements[i] = -1;
-            }
-
-            back = result = 0;
-            for (front = 0; front < A.Length; front++)
-            {
-                if (elements[A[front]] == -1)
+                while (front < A.Length && !elements.Contains(A[front]))
                 {
-                    elements[A[front]] = front;
-                }
-                else
-                {
-                    var newBack = elements[A[front]] + 1;
-                    result += (newBack - back) * (front - back + front - newBack + 1) / 2;
+                    result += (front - back + 1);
 
                     if (result >= limit)
                     {
                         return limit;
                     }
 
-                    for (int idx = back; idx < newBack; idx++)
-                    {
-                        elements[A[idx]] = -1;
-                    }
-                    elements[A[front]] = front;
-
-                    back = newBack;
+                    elements.Add(A[front]);
+                    front++;
                 }
-            }
 
-            result += (front - back) * (front - back + 1) / 2;
+                while (front < A.Length && back < A.Length && A[back] != A[front])
+                {
+                    elements.Remove(A[back]);
+                    back++;
+                }
+
+                elements.Remove(A[back]);
+                back++;
+            }
 
             return Math.Min(result, limit);
         }
