@@ -12,7 +12,7 @@ namespace Codility
             var head = A.Length - 1;
             var result = Math.Abs(A[tail] + A[head]);
 
-            while (tail != head)
+            while (tail < head)
             {
                 while (CanMoveTail(A, tail, head) || CanMoveHead(A, tail, head))
                 {
@@ -29,14 +29,14 @@ namespace Codility
                     result = Math.Min(result, Math.Abs(A[tail] + A[head]));
                 }
 
-                if (tail != head)
-                {
-                    tail++;
-                }
-
-                if (tail != head)
+                if (head - tail > 2)
                 {
                     head--;
+                }
+
+                if (head - tail > 0)
+                {
+                    tail++;
                 }
 
                 result = Math.Min(result, Math.Abs(A[tail] + A[head]));
@@ -47,24 +47,14 @@ namespace Codility
 
         private bool CanMoveTail(int[] A, int tail, int head)
         {
-            if (tail < A.Length - 1)
-            {
-                return 
-                    tail != head && Math.Abs(A[tail + 1] + A[head]) <= Math.Abs(A[tail] + A[head]);
-            }
-
-            return false;
+            
+            return tail < head && Math.Abs(A[tail + 1] + A[head]) <= Math.Abs(A[tail] + A[head]);
         }
 
         private bool CanMoveHead(int[] A, int tail, int head)
         {
-            if (head > 0)
-            {
-                return
-                    tail != head && Math.Abs(A[tail] + A[head - 1]) <= Math.Abs(A[tail] + A[head]);
-            }
+            return tail < head && Math.Abs(A[tail] + A[head - 1]) <= Math.Abs(A[tail] + A[head]);
 
-            return false;
         }
     }
 }
