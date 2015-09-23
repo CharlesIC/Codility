@@ -7,24 +7,17 @@ namespace Codility
         public int solution(int K, int[] A)
         {
             var result = 0;
-            var currentLength = 0;
+            var length = 0;
 
-            foreach (var length in A)
+            foreach (var rope in A)
             {
-                if (currentLength < K)
-                {
-                    currentLength += length;
-                }
-                else
+                length += rope;
+
+                if (length >= K)
                 {
                     result++;
-                    currentLength = length;
+                    length = 0;
                 }
-            }
-
-            if (currentLength >= K)
-            {
-                result++;
             }
 
             return result;
