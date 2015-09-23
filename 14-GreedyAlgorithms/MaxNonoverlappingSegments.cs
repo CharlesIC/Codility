@@ -14,13 +14,28 @@ namespace Codility
                 result++;
                 var currentPosition = B[stick];
 
-                var nextStick = stick + 1;
-                while (nextStick < B.Length && A[nextStick] <= currentPosition)
+                // Skip all sticks overlapping with the current one
+                while (stick < B.Length && A[stick] <= currentPosition)
                 {
-                    nextStick++;
+                    stick++;
                 }
+            }
 
-                stick = nextStick;
+            return result;
+        }
+
+        public int solution2(int[] A, int[] B)
+        {
+            var result = 0;
+            var currentPosition = -1;
+
+            for (int stick = 0; stick < B.Length; stick++)
+            {
+                if (A[stick] > currentPosition)
+                {
+                    result++;
+                    currentPosition = B[stick];
+                }
             }
 
             return result;
