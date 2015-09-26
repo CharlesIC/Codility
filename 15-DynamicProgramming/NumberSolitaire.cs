@@ -11,11 +11,10 @@ namespace Codility
             var n = A.Length;
 
             var maxScore = new int[d];
-            maxScore[0] = A[0];
 
-            for (int i = 1; i < maxScore.Length; i++)
+            for (int i = 0; i < maxScore.Length; i++)
             {
-                maxScore[i] = int.MinValue;
+                maxScore[i] = A[0];
             }
 
 
