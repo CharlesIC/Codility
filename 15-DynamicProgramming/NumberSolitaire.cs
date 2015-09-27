@@ -17,7 +17,6 @@ namespace Codility
                 maxScore[i] = A[0];
             }
 
-
             for (int p = 1; p < n; p++)
             {
                 maxScore[p % d] = maxScore.Max() + A[p];
