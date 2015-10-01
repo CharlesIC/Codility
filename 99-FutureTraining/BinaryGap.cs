@@ -50,5 +50,41 @@ namespace Codility
 
             return count;
         }
+
+        public int solution2(int N)
+        {
+            int x = N;
+            var count = 0;
+            var currentCount = -1;
+
+            while (x > 0)
+            {
+                var bit = x % 2;
+
+                if (bit == 1)
+                {
+                    if (currentCount == -1)
+                    {
+                        currentCount = 0;
+                    }
+                    else
+                    {
+                        count = Math.Max(count, currentCount);
+                        currentCount = 0;
+                    }
+                }
+                else
+                {
+                    if (currentCount >= 0)
+                    {
+                        currentCount++;
+                    }
+                }
+
+                x /= 2;
+            }
+
+            return count;
+        }
     }
 }
