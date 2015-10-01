@@ -24,5 +24,17 @@ namespace Codility
 
             return elements.Single();
         }
+
+        public int solution2(int[] A)
+        {
+            var result = 0;
+
+            foreach (var num in A)
+            {
+                result ^= num;
+            }
+
+            return result;
+        }
     }
 }
