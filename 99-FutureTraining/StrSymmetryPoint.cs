@@ -32,5 +32,33 @@ namespace Codility
 
             return middle;
         }
+
+        // More memory efficient
+        public int solution2(string s)
+        {
+            var n = s.Length;
+
+            if (n == 0 || n % 2 == 0)
+            {
+                return -1;
+            }
+
+            var middle = n / 2;
+            var head = n - 1;
+            var tail = 0;
+
+            while (head > tail)
+            {
+                if (s[head] != s[tail])
+                {
+                    return -1;
+                }
+
+                head--;
+                tail++;
+            }
+
+            return middle;
+        }
     }
 }

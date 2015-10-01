@@ -11,12 +11,9 @@ namespace Codility
             var count = 0;
             var gap = new Stack<int>();
 
-            var allBits = new Stack<int>();
-
             while (x > 0)
             {
                 var bit = x % 2;
-                allBits.Push(bit);
 
                 if (bit == 1)
                 {
@@ -42,15 +39,10 @@ namespace Codility
                 x /= 2;
             }
 
-            Console.Write("\n{0} bits: ", N);
-            foreach (var bit in allBits)
-            {
-                Console.Write(bit);
-            }
-
             return count;
         }
 
+        // More memory efficient
         public int solution2(int N)
         {
             int x = N;
