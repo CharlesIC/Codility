@@ -65,27 +65,33 @@ namespace Codility
         // Use modifed mergesort
         public int solution2(int[] A)
         {
-            Mergesort(A, 0, A.Length - 1);
-            return -1;
+            return CountInversions(A, 0, A.Length - 1);
         }
 
-        public void Mergesort(int[] A, int first, int last)
+        public int CountInversions(int[] A, int first, int last)
         {
-            if (first >= last || first < 0 || last >= A.Length)
+            if (first >= last)
             {
-                return;
+                return 0;
             }
 
+            const int limit = (int)1e9;
             var mid = (first + last) / 2;
 
             // Divide array in half and sort recursively
-            Mergesort(A, first, mid);
-            Mergesort(A, mid + 1, last);
+            var countLeft = CountInversions(A, first, mid);
+            var countRight = CountInversions(A, mid + 1, last);
+
+            if (countLeft == -1 || countRight == -1)
+            {
+                return -1;
+            }
 
             var sorted = new int[last - first + 1];
             var sortedIdx = 0;
             var leftIdx = first;
             var rightIdx = mid + 1;
+            var countMerge = 0;
 
             while (leftIdx <= mid && rightIdx <= last)
             {
@@ -96,6 +102,7 @@ namespace Codility
                 else
                 {
                     sorted[sortedIdx++] = A[rightIdx++];
+                    countMerge += mid - leftIdx + 1;
                 }
             }
 
@@ -119,6 +126,9 @@ namespace Codility
             {
                 A[i] = sorted[i - first];
             }
+
+            var result = countLeft + countMerge + countRight;
+            return result < limit ? result : -1;
         }
     }
 }
