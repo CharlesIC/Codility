@@ -5,8 +5,20 @@ namespace Codility
 {
     public class BinaryIndexTree
     {
+        #region Fields
+
         private readonly int[] tree;
         private int max;
+
+        #endregion
+
+        #region Constructors
+
+        public BinaryIndexTree(int maxVal)
+        {
+            max = maxVal;
+            tree = new int[max + 1];
+        }
 
         public BinaryIndexTree(int[] arr)
         {
@@ -18,6 +30,10 @@ namespace Codility
                 Update(num, 1);
             }
         }
+
+        #endregion
+
+        #region Public Methods
 
         public int ReadSingle(int idx)
         {
@@ -130,6 +146,15 @@ namespace Codility
             Console.WriteLine();
         }
 
+        public void Update(int idx)
+        {
+            Update(idx, 1);
+        }
+
+        #endregion
+
+        #region Methods
+
         private void Update(int idx, int val)
         {
             while (idx <= max)
@@ -138,5 +163,7 @@ namespace Codility
                 idx += (idx & -idx);
             }
         }
+
+        #endregion
     }
 }

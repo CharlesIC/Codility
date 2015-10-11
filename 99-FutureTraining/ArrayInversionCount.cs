@@ -6,6 +6,8 @@ namespace Codility
 {
     public class ArrayInversionCount
     {
+        #region Public Methods
+
         // Sort A and use binary search to
         // find sorted indices
         public int solution(int[] A)
@@ -31,6 +33,38 @@ namespace Codility
 
             return result;
         }
+
+        // Use modifed mergesort
+        public int solution2(int[] A)
+        {
+            return CountInversions(A, 0, A.Length - 1);
+        }
+            
+        // Use BIT (Binary Index Tree)
+        public int solution3(int[] A)
+        {
+            const int limit = (int)1e9;
+            var n = A.Length;
+
+            var bit = new BinaryIndexTree(n);
+
+            var sortedNumbers = A.ToList();
+            sortedNumbers.Sort();
+
+            var result = 0;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                var sortedIdx = GetFirstIndexOf(sortedNumbers, A[i]) + 1;
+                result += bit.ReadCumulative(sortedIdx - 1);
+                bit.Update(sortedIdx);
+            }
+
+            return result <= limit ? result : -1;
+        }
+
+        #endregion
+
+        #region Methods
 
         private int GetFirstIndexOf(List<int> sortedNumbers, int num)
         {
@@ -62,13 +96,7 @@ namespace Codility
             return best;
         }
 
-        // Use modifed mergesort
-        public int solution2(int[] A)
-        {
-            return CountInversions(A, 0, A.Length - 1);
-        }
-
-        public int CountInversions(int[] A, int first, int last)
+        private int CountInversions(int[] A, int first, int last)
         {
             if (first >= last)
             {
@@ -131,75 +159,6 @@ namespace Codility
             return result < limit ? result : -1;
         }
 
-        // Use BIT (Binary Index Tree)
-        public int solution3(int[] A)
-        {
-            const int limit = (int)1e9;
-            var n = A.Length;
-
-            var sortedNumbers = A.ToList();
-            sortedNumbers.Sort();
-
-            var sortedIdx = new int[n];
-            for (int i = 0; i < n; i++)
-            {
-                sortedIdx[i] = BinarySearch(sortedNumbers, 0, n, A[i]) + 1;
-            }
-
-            var result = 0;
-            var ft = new int[n + 1];
-            for (int i = n - 1; i >= 0; --i)
-            {
-                result += Query(ft, sortedIdx[i] - 1);
-                Update(ft, sortedIdx[i]);
-            }
-
-            return result <= limit ? result : -1;
-        }
-
-        private int BinarySearch(List<int> sortedNums, int low, int high, int x)
-        {
-            int best = -1;
-
-            while (low != high)
-            {
-                var mid = (low + high) / 2;
-
-                if (sortedNums[mid] == x)
-                {
-                    best = mid;
-                    high = mid;
-                }
-                else if (sortedNums[mid] > x)
-                {
-                    high = mid;
-                }
-                else
-                {
-                    low = mid + 1;
-                }
-            }
-
-            return best;
-        }
-
-        private int Query(int[] F, int x)
-        {
-            int acc = 0;
-            for (int i = x; i > 0; i -= (i & -i))
-            {
-                acc += F[i];
-            }
-
-            return acc;
-        }
-
-        private void Update(int[] F, int val)
-        {
-            for (int i = val; i < F.Length; i += (i & -i))
-            {
-                F[i] += 1;
-            }
-        }
+        #endregion
     }
 }
