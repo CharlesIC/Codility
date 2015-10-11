@@ -36,7 +36,7 @@ namespace Codility
         {
             var low = 0;
             var high = sortedNumbers.Count() - 1;
-            var index = -1;
+            var best = -1;
 
             while (low <= high)
             {
@@ -46,7 +46,7 @@ namespace Codility
                 // of the first occurence of num
                 if (sortedNumbers[mid] == num)
                 {
-                    index = mid;
+                    best = mid;
                     high = mid - 1;
                 }
                 else if (sortedNumbers[mid] > num)
@@ -59,7 +59,7 @@ namespace Codility
                 }
             }
 
-            return index;
+            return best;
         }
 
         // Use modifed mergesort
@@ -135,11 +135,71 @@ namespace Codility
         public int solution3(int[] A)
         {
             const int limit = (int)1e9;
-            var bit = new BinaryIndexTree(A);
+            var n = A.Length;
 
-            bit.PrintTree();
+            var sortedNumbers = A.ToList();
+            sortedNumbers.Sort();
 
-            return -1;
+            var sortedIdx = new int[n];
+            for (int i = 0; i < n; i++)
+            {
+                sortedIdx[i] = BinarySearch(sortedNumbers, 0, n, A[i]) + 1;
+            }
+
+            var result = 0;
+            var ft = new int[n + 1];
+            for (int i = n - 1; i >= 0; --i)
+            {
+                result += Query(ft, sortedIdx[i] - 1);
+                Update(ft, sortedIdx[i]);
+            }
+
+            return result <= limit ? result : -1;
+        }
+
+        private int BinarySearch(List<int> sortedNums, int low, int high, int x)
+        {
+            int best = -1;
+
+            while (low != high)
+            {
+                var mid = (low + high) / 2;
+
+                if (sortedNums[mid] == x)
+                {
+                    best = mid;
+                    high = mid;
+                }
+                else if (sortedNums[mid] > x)
+                {
+                    high = mid;
+                }
+                else
+                {
+                    low = mid + 1;
+                }
+            }
+
+            return best;
+        }
+
+        private int Query(int[] F, int x)
+        {
+            int acc = 0;
+            for (int i = x; i > 0; i -= (i & -i))
+            {
+                acc += F[i];
+            }
+
+            return acc;
+        }
+
+        private void Update(int[] F, int val)
+        {
+            for (int i = val; i < F.Length; i += (i & -i))
+            {
+                F[i] += 1;
+            }
         }
     }
 }
