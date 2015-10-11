@@ -130,5 +130,16 @@ namespace Codility
             var result = countLeft + countMerge + countRight;
             return result < limit ? result : -1;
         }
+
+        // Use BIT (Binary Index Tree)
+        public int solution3(int[] A)
+        {
+            const int limit = (int)1e9;
+            var bit = new BinaryIndexTree(A);
+
+            bit.PrintTree();
+
+            return -1;
+        }
     }
 }
